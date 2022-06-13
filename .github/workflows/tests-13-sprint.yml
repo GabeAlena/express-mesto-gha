@@ -1,5 +1,4 @@
-name: [![Tests for sprint 13](https://github.com/GabeAlena/express-mesto-gha/actions/workflows/tests-13-sprint.yml/badge.svg)](https://github.com/GabeAlena/express-mesto-gha/actions/workflows/tests-13-sprint.yml) 
-
+name: Tests 13 sprint
 on:
   push:
     branches:
