@@ -15,7 +15,7 @@ module.exports.getCards = (req, res) => {
 module.exports.createCard = (req, res) => {
   console.log(req.user._id); // _id станет доступен
   const { name, link } = req.body;
-  const owner = req.body._id;
+  const owner = req.user._id;
 
   Card.create({ name, link, owner }, { new: true, runValidators: true })
     .then((card) => res.send({ data: card }))
