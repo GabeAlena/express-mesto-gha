@@ -46,9 +46,9 @@ module.exports.createUser = (req, res) => {
 /* обновляет профиль */
 module.exports.updateUser = (req, res) => {
   const { name, about } = req.body;
-  const userId = req.user._id;
+  const userId = req.body._id;
 
-  User.findByIdAndUpdate(userId, { name, about }, { new: true })
+  User.findByIdAndUpdate(userId, { name, about }, { new: true, runValidators: true })
     .then((user) => {
       if (!user) {
         return res.status(NOT_FOUND).send({ message: 'Запрашиваемый пользователь не найден' });
@@ -68,7 +68,7 @@ module.exports.updateAvatarUser = (req, res) => {
   const { avatar } = req.body;
   const userId = req.body._id;
 
-  User.findByIdAndUpdate(userId, { avatar }, { new: true })
+  User.findByIdAndUpdate(userId, { avatar }, { new: true, runValidators: true })
     .then((user) => {
       if (!user) {
         return res.status(NOT_FOUND).send({ message: 'Запрашиваемый пользователь не найден' });
