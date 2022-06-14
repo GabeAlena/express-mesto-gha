@@ -46,7 +46,7 @@ module.exports.createUser = (req, res) => {
 /* обновляет профиль */
 module.exports.updateUser = (req, res) => {
   const { name, about } = req.body;
-  const userId = req.body._id;
+  const userId = req.user._id;
 
   User.findByIdAndUpdate(userId, { name, about }, { new: true, runValidators: true })
     .then((user) => {
@@ -66,7 +66,7 @@ module.exports.updateUser = (req, res) => {
 /* обновляет аватар */
 module.exports.updateAvatarUser = (req, res) => {
   const { avatar } = req.body;
-  const userId = req.body._id;
+  const userId = req.user._id;
 
   User.findByIdAndUpdate(userId, { avatar }, { new: true, runValidators: true })
     .then((user) => {
