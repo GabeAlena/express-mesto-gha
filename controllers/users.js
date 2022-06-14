@@ -56,7 +56,7 @@ module.exports.updateUser = (req, res) => {
       return res.send({ data: user });
     })
     .catch((err) => {
-      if (err.name === 'CastError' || err.name === 'ValidationError') {
+      if (err.name === 'ValidationError') {
         return res.status(ERROR_CODE).send({ message: 'Переданы некорректные данные в метод обновления профиля' });
       }
       return res.status(ERROR_DEFAULT).send({ message: 'Сервер не может обработать запрос' });
