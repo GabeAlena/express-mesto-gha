@@ -18,7 +18,7 @@ module.exports.createCard = (req, res) => {
     .then((card) => res.send({ data: card }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        return res.status(ERROR_CODE).send({ message: 'Некорретные данные. Проверьте правильность введенных данных' });
+        return res.status(ERROR_CODE).send({ message: `Данные некорректны ${err.message}` });
       }
       return res.status(ERROR_DEFAULT).send({ message: 'Сервер не может обработать запрос' });
     });
@@ -69,7 +69,7 @@ module.exports.dislikeCard = (req, res) => {
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        return res.status(ERROR_CODE).send({ message: 'ПНекорректные данные. Проверьте id карточки' });
+        return res.status(ERROR_CODE).send({ message: 'Некорректные данные. Проверьте id карточки' });
       }
       return res.status(ERROR_DEFAULT).send({ message: 'Сервер не может обработать запрос' });
     });
