@@ -1,8 +1,5 @@
 const Card = require('../models/card');
-
-const ERROR_CODE = 400;
-const NOT_FOUND = 404;
-const ERROR_DEFAULT = 500;
+const { ERROR_CODE, NOT_FOUND, ERROR_DEFAULT } = require('../utils/utils');
 
 /* возвращает все карточки */
 module.exports.getCards = (req, res) => {
@@ -21,7 +18,7 @@ module.exports.createCard = (req, res) => {
     .then((card) => res.send({ data: card }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        return res.status(ERROR_CODE).send({ message: 'Переданы некорректные данные в метод создания карточки' });
+        return res.status(ERROR_CODE).send({ message: 'Некорретные данные. Проверьте правильность введенных данных' });
       }
       return res.status(ERROR_DEFAULT).send({ message: 'Сервер не может обработать запрос' });
     });
@@ -38,7 +35,7 @@ module.exports.deleteCard = (req, res) => {
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        return res.status(ERROR_CODE).send({ message: 'Переданы некорректные данные в метод создания карточки' });
+        return res.status(ERROR_CODE).send({ message: 'Некорректные данные. Проверьте id карточки' });
       }
       return res.status(ERROR_DEFAULT).send({ message: 'Сервер не может обработать запрос' });
     });
@@ -55,7 +52,7 @@ module.exports.likeCard = (req, res) => {
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        return res.status(ERROR_CODE).send({ message: 'Переданы некорректные данные в метод постановки лайка' });
+        return res.status(ERROR_CODE).send({ message: 'Некорректные данные. Проверьте id карточки' });
       }
       return res.status(ERROR_DEFAULT).send({ message: 'Сервер не может обработать запрос' });
     });
@@ -72,7 +69,7 @@ module.exports.dislikeCard = (req, res) => {
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        return res.status(ERROR_CODE).send({ message: 'Переданы некорректные данные в метод удаления лайка' });
+        return res.status(ERROR_CODE).send({ message: 'ПНекорректные данные. Проверьте id карточки' });
       }
       return res.status(ERROR_DEFAULT).send({ message: 'Сервер не может обработать запрос' });
     });

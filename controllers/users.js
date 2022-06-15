@@ -1,8 +1,5 @@
 const User = require('../models/user');
-
-const ERROR_CODE = 400;
-const NOT_FOUND = 404;
-const ERROR_DEFAULT = 500;
+const { ERROR_CODE, NOT_FOUND, ERROR_DEFAULT } = require('../utils/utils');
 
 /* возвращение всех пользователей */
 module.exports.getUsers = (req, res) => {
@@ -23,7 +20,7 @@ module.exports.getUser = (req, res) => {
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        return res.status(ERROR_CODE).send({ message: 'Переданы некорректные данные в метод получения данных о пользователе' });
+        return res.status(ERROR_CODE).send({ message: 'Данные некорретны. Проверьте id пользователя' });
       }
       return res.status(ERROR_DEFAULT).send({ message: 'Сервер не может обработать запрос' });
     });
@@ -37,7 +34,7 @@ module.exports.createUser = (req, res) => {
     .then((user) => res.send({ data: user }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        return res.status(ERROR_CODE).send({ message: 'Переданы некорректные данные в метод создания пользователя' });
+        return res.status(ERROR_CODE).send({ message: 'Данные некорретны. Проверьте правильность введенных данных' });
       }
       return res.status(ERROR_DEFAULT).send({ message: 'Сервер не может обработать запрос' });
     });
@@ -56,8 +53,11 @@ module.exports.updateUser = (req, res) => {
       return res.send({ data: user });
     })
     .catch((err) => {
+      if (err.name === 'CastEror') {
+        return res.status(ERROR_DEFAULT).send({ message: 'Сервер не может обработать запрос' });
+      }
       if (err.name === 'ValidationError') {
-        return res.status(ERROR_CODE).send({ message: 'Переданы некорректные данные в метод обновления профиля' });
+        return res.status(ERROR_CODE).send({ message: 'Данные некорректны. Проверьте правильность введенных данных' });
       }
       return res.status(ERROR_DEFAULT).send({ message: 'Сервер не может обработать запрос' });
     });
@@ -77,7 +77,7 @@ module.exports.updateAvatarUser = (req, res) => {
     })
     .catch((err) => {
       if (err.name === 'CastError' || err.name === 'ValidationError') {
-        return res.status(ERROR_CODE).send({ message: 'Переданы некорректные данные в метод обновления профиля' });
+        return res.status(ERROR_CODE).send({ message: 'Данные некорретны. Проверьте правильность введеного url' });
       }
       return res.status(ERROR_DEFAULT).send({ message: 'Сервер не может обработать запрос' });
     });

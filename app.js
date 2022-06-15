@@ -27,4 +27,6 @@ app.use('*', (req, res) => {
 
 mongoose.connect('mongodb://localhost:27017/mestodb', { useNewUrlParser: true });
 
-app.listen(PORT);
+app.listen(PORT, () => {
+  console.log(`Сервер на порту ${PORT} успешно запущен`);
+});
