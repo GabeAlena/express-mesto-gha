@@ -12,10 +12,10 @@ const {
 userRouter.post('/signup', createUser);
 userRouter.post('/signin', login);
 
-userRouter.get('/users', getUsers);
-userRouter.get('/users/me', returnUser);
-userRouter.get('/users/:userId', getUser);
-userRouter.patch('users/me', updateUser);
-userRouter.patch('users/me/avatar', updateAvatarUser);
+userRouter.get('/', getUsers);
+userRouter.get('/me', returnUser);
+userRouter.get('/:userId', getUser);
+userRouter.patch('/me', updateUser);
+userRouter.patch('/me/avatar', updateAvatarUser);
 
 module.exports = userRouter;
