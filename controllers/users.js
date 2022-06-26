@@ -113,7 +113,7 @@ module.exports.getUser = (req, res, next) => {
       return res.send({ data: user });
     })
     .catch((err) => {
-      if (err.name === 'CastError') {
+      if (err.name === 'ValidationError') {
         next(new ValidationError(`Данные некорректны ${err.message}. Проверьте id пользователя`));
         /*
         res.status(ERROR_CODE).send({ message: `Данные некорректны ${err.message}. Проверьте id` });
