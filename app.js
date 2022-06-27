@@ -9,6 +9,7 @@ const cardRouter = require('./routes/cards');
 const { createUser, login } = require('./controllers/users');
 const auth = require('./middlewares/auth');
 const NotFound = require('./errors/NotFound');
+const { serverError } = require('./errors/serverError');
 
 const { PORT = 3000 } = process.env;
 const app = express();
@@ -32,7 +33,7 @@ app.post('/signup', celebrate({
 app.post('/signin', celebrate({
   body: Joi.object().keys({
     email: Joi.string().required().email(),
-    password: Joi.string().min(2).required(),
+    password: Joi.string().required(),
   }).unknown(true),
 }), login);
 
@@ -43,18 +44,7 @@ app.use('*', (req, res, next) => next(new NotFound('Запрашиваемая �
 
 app.use(errors());
 
-app.use((err, req, res, next) => {
-  const { statusCode = 500, message } = err;
-
-  res
-    .status(statusCode)
-    .send({
-      message: statusCode === 500
-        ? 'На сервере произошла ошибка'
-        : message,
-    });
-  next();
-});
+app.use(serverError);
 
 app.listen(PORT, () => {
   console.log(`Сервер на порту ${PORT} успешно запущен`);

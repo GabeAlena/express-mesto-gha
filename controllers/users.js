@@ -15,11 +15,14 @@ module.exports.createUser = (req, res, next) => {
 
   User.findOne({ email })
     .then((user) => {
-      if (user) {
-        throw new Conflict('Такой пользователь уже зарегистрирован');
+      try {
+        if (user) {
+          throw new Conflict('Такой пользователь уже зарегистрирован');
+        }
+      } catch (err) {
+        next(err);
       }
-    })
-    .catch(next);
+    });
 
   bcrypt.hash(password, 10)
     .then((hash) => User.create({
@@ -61,7 +64,6 @@ module.exports.login = (req, res, next) => {
       if (err.name === 'Error') {
         next(new Unauthorized('Неверные почта или пароль'));
       }
-      next(err);
     });
 };
 

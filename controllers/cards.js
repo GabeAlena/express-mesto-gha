@@ -33,11 +33,11 @@ module.exports.deleteCard = (req, res, next) => {
     .then((card) => {
       if (!card) {
         next(new NotFound('Запрашиваемая карточка не найдена'));
-      }
-      if (card.owner.toString() !== req.user._id) {
+      } else if (card.owner.toString() !== req.user._id) {
         next(new Forbidden('Запрещено удалять чужие карточки!'));
+      } else {
+        card.remove();
       }
-      card.remove();
     })
     .then((card) => res.send({ data: card }))
     .catch((err) => {
