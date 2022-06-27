@@ -95,10 +95,7 @@ module.exports.returnUser = (req, res, next) => {
 module.exports.getUsers = (req, res, next) => {
   User.find({})
     .then((users) => {
-      if (!users) {
-        next(new Unauthorized('Вы не авторизованы!'));
-      }
-      return res.send({ data: users });
+      res.send({ data: users });
     })
     .catch((err) => next(err));
 };

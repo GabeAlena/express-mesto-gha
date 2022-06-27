@@ -2,6 +2,7 @@ const Card = require('../models/card');
 
 const ValidationError = require('../errors/ValidationError');
 const NotFound = require('../errors/NotFound');
+const Forbidden = require('../errors/Forbidden');
 
 /* возвращает все карточки */
 module.exports.getCards = (req, res, next) => {
@@ -33,7 +34,9 @@ module.exports.deleteCard = (req, res, next) => {
     .then((card) => {
       if (!card) {
         throw new NotFound('Запрашиваемая карточка не найдена');
-        /* return res.status(NOT_FOUND).send({ message: 'Запрашиваемая карточка не найдена' }); */
+      }
+      if (card.owner !== req.user._id) {
+        next(new Forbidden('Запрещено удалять чужие карточки!'));
       }
       return res.send({ data: card });
     })
@@ -43,14 +46,6 @@ module.exports.deleteCard = (req, res, next) => {
         return;
       }
       next(err);
-
-    /* .catch((err) => {
-      if (err.name === 'CastError') {
-        return res.status(ERROR_CODE).send({
-          message: 'Некорректные данные. Проверьте id карточки'
-        });
-      }
-      return res.status(ERROR_DEFAULT).send({ message: 'Сервер не может обработать запрос' }); */
     });
 };
 
