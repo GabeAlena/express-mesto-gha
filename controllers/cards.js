@@ -39,7 +39,6 @@ module.exports.deleteCard = (req, res, next) => {
         card.remove();
       }
     })
-    .then((card) => res.send({ data: card }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new ValidationError(`Данные некорректны ${err.message}`));
