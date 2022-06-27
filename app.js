@@ -36,14 +36,12 @@ app.post('/signin', celebrate({
   }).unknown(true),
 }), login);
 
-app.use(auth);
-
-app.use('/users', userRouter);
-app.use('/cards', cardRouter);
+app.use('/users', auth, userRouter);
+app.use('/cards', auth, cardRouter);
 
 app.use('*', (req, res, next) => next(new NotFound('Запрашиваемая страница не найдена')));
 
-app.use(errors());
+/* app.use(errors());
 
 app.use((err, req, res, next) => {
   const { statusCode = 500, message } = err;
@@ -56,7 +54,7 @@ app.use((err, req, res, next) => {
         : message,
     });
   next();
-});
+}); */
 
 app.listen(PORT, () => {
   console.log(`Сервер на порту ${PORT} успешно запущен`);

@@ -13,12 +13,6 @@ module.exports.createUser = (req, res, next) => {
     email, password, name, about, avatar,
   } = req.body;
 
-  /*
-  if (!password || !email) {
-    return res.status(400).send({ message: 'Email или пароль не могут быть пустыми' });
-  }
-  */
-
   User.findOne({ email })
     .then((user) => {
       if (user) {
@@ -47,9 +41,6 @@ module.exports.createUser = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'ValidationError') {
         return next(new ValidationError(`Данные некорректны ${err.message}`));
-        /*
-        return res.status(ERROR_CODE).send({ message: `Данные некорректны ${err.message}` });
-        */
       }
       return next(err);
     })
@@ -86,9 +77,6 @@ module.exports.returnUser = (req, res, next) => {
     .catch((err) => {
       next(err);
     });
-  /*
-    .catch(() => res.status(ERROR_DEFAULT).send({ message: 'Сервер не может обработать запрос' }));
-  */
 };
 
 /* возвращение всех пользователей */
@@ -107,24 +95,15 @@ module.exports.getUser = (req, res, next) => {
     .then((user) => {
       if (!user) {
         throw new NotFound('Запрашиваемый пользователь не найден');
-        /*
-        return res.status(NOT_FOUND).send({ message: 'Запрашиваемый пользователь не найден' });
-        */
       }
       return res.send({ data: user });
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new ValidationError(`Данные некорректны ${err.message}. Проверьте id пользователя`));
-        /*
-        res.status(ERROR_CODE).send({ message: `Данные некорректны ${err.message}. Проверьте id` });
-        */
         return;
       }
       next(err);
-      /*
-      return res.status(ERROR_DEFAULT).send({ message: 'Сервер не может обработать запрос' });
-      */
     });
 };
 
@@ -137,9 +116,6 @@ module.exports.updateUser = (req, res, next) => {
     .then((user) => {
       if (!user) {
         throw new NotFound('Запрашиваемый пользователь не найден');
-        /*
-        return res.status(NOT_FOUND).send({ message: 'Запрашиваемый пользователь не найден' });
-        */
       }
       return res.send({ data: user });
     })
@@ -149,15 +125,6 @@ module.exports.updateUser = (req, res, next) => {
         return;
       }
       next(err);
-      /*
-      if (err.name === 'CastEror') {
-        return res.status(ERROR_DEFAULT).send({ message: 'Сервер не может обработать запрос' });
-      }
-      if (err.name === 'ValidationError') {
-        return res.status(ERROR_CODE).send({ message: `Данные некорректны ${err.message}` });
-      }
-      return res.status(ERROR_DEFAULT).send({ message: 'Сервер не может обработать запрос' });
-      */
     });
 };
 
@@ -170,9 +137,6 @@ module.exports.updateAvatarUser = (req, res, next) => {
     .then((user) => {
       if (!user) {
         throw new NotFound('Запрашиваемый пользователь не найден');
-        /*
-        return res.status(NOT_FOUND).send({ message: 'Запрашиваемый пользователь не найден' });
-        */
       }
       return res.send({ data: user });
     })
@@ -182,11 +146,5 @@ module.exports.updateAvatarUser = (req, res, next) => {
         return;
       }
       next(err);
-      /*
-      if (err.name === 'CastError' || err.name === 'ValidationError') {
-        return res.status(ERROR_CODE).send({ message: `Данные некорректны ${err.message}` });
-      }
-      return res.status(ERROR_DEFAULT).send({ message: 'Сервер не может обработать запрос' });
-      */
     });
 };
