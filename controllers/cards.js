@@ -13,7 +13,6 @@ module.exports.getCards = (req, res, next) => {
 
 /* создает карточку */
 module.exports.createCard = (req, res, next) => {
-  // console.log(req.user._id); // _id станет доступен
   const { name, link } = req.body;
   const owner = req.user._id;
 
@@ -56,7 +55,6 @@ module.exports.likeCard = (req, res, next) => {
     .then((card) => {
       if (!card) {
         throw new NotFound('Запрашиваемая карточка не найдена');
-        /* return res.status(NOT_FOUND).send({ message: 'Запрашиваемая карточка не найдена' }); */
       }
       return res.send({ data: card });
     })
@@ -66,14 +64,6 @@ module.exports.likeCard = (req, res, next) => {
         return;
       }
       next(err);
-
-    /* .catch((err) => {
-      if (err.name === 'CastError') {
-        return res.status(ERROR_CODE).send({
-          message: 'Некорректные данные. Проверьте id карточки'
-        });
-      }
-      return res.status(ERROR_DEFAULT).send({ message: 'Сервер не может обработать запрос' }); */
     });
 };
 
@@ -83,8 +73,6 @@ module.exports.dislikeCard = (req, res, next) => {
     .then((card) => {
       if (!card) {
         throw new NotFound('Запрашиваемая карточка не найдена');
-
-        /* return res.status(NOT_FOUND).send({ message: 'Запрашиваемая карточка не найдена' }); */
       }
       return res.send({ data: card });
     })
@@ -94,13 +82,5 @@ module.exports.dislikeCard = (req, res, next) => {
         return;
       }
       next(err);
-
-    /* .catch((err) => {
-      if (err.name === 'CastError') {
-        return res.status(ERROR_CODE).send({
-          message: 'Некорректные данные. Проверьте id карточки'
-        });
-      }
-      return res.status(ERROR_DEFAULT).send({ message: 'Сервер не может обработать запрос' }); */
     });
 };

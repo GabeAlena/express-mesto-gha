@@ -1,5 +1,5 @@
 const bcrypt = require('bcryptjs');
-
+const validator = require('validator');
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
@@ -9,6 +9,10 @@ const userSchema = new mongoose.Schema({
     minlength: [2, 'Минимальная длина 2 символа'],
     maxlength: [30, 'Максимальная длина 30 символов'],
     unique: [true, 'Пользователь с таким email уже есть'],
+    validate: {
+      validator: validator.isEmail,
+      message: 'Недопустимый адрес электронной почты',
+    },
   },
   password: {
     type: String,
