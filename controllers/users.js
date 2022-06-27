@@ -79,8 +79,7 @@ module.exports.returnUser = (req, res, next) => {
   User.findById(req.user._id)
     .then((user) => {
       if (!user) {
-        console.log('Where is my user?');
-        console.log(user);
+        throw new NotFound('Пользователь не найден!');
       }
       return res.send({ data: user });
     })
@@ -95,7 +94,12 @@ module.exports.returnUser = (req, res, next) => {
 /* возвращение всех пользователей */
 module.exports.getUsers = (req, res, next) => {
   User.find({})
-    .then((users) => res.send({ data: users }))
+    .then((users) => {
+      if (!users) {
+        next(new Unauthorized('Вы не авторизованы!'));
+      }
+      return res.send({ data: users });
+    })
     .catch((err) => next(err));
 };
 
