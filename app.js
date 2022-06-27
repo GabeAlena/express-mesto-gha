@@ -41,7 +41,7 @@ app.use('/cards', auth, cardRouter);
 
 app.use('*', (req, res, next) => next(new NotFound('Запрашиваемая страница не найдена')));
 
-/* app.use(errors());
+app.use(errors());
 
 app.use((err, req, res, next) => {
   const { statusCode = 500, message } = err;
@@ -54,7 +54,7 @@ app.use((err, req, res, next) => {
         : message,
     });
   next();
-}); */
+});
 
 app.listen(PORT, () => {
   console.log(`Сервер на порту ${PORT} успешно запущен`);
