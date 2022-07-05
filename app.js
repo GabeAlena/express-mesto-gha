@@ -9,6 +9,8 @@ const { createUser, login } = require('./controllers/users');
 const auth = require('./middlewares/auth');
 const NotFound = require('./errors/NotFound');
 const { serverError } = require('./errors/serverError');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
+const cors = require('./cors/cors');
 
 const { PORT = 3000 } = process.env;
 const app = express();
@@ -17,6 +19,10 @@ mongoose.connect('mongodb://localhost:27017/mestodb', { useNewUrlParser: true })
 
 app.use(express.json());
 app.use(cookieParser());
+
+app.use(requestLogger);
+
+app.use(cors());
 
 app.post('/signup', celebrate({
   body: Joi.object().keys({
@@ -38,6 +44,8 @@ app.use('/users', auth, userRouter);
 app.use('/cards', auth, cardRouter);
 
 app.use('*', (req, res, next) => next(new NotFound('Запрашиваемая страница не найдена')));
+
+app.use(errorLogger);
 
 app.use(errors());
 
